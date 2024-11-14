@@ -383,26 +383,20 @@ class Haplotyping:
         haploTable.append("<div class='table-responsive'>")
         haploTable.append("<table class='table'>")
         haploTable.append(
-            "<thead><tr><th>{} 单倍群</th><th>SNP突变数</th><th>层级</th><th>可信度</th></tr></thead>".format(
-                self.__is_y_mt.upper()
-            )
+            f"<thead><tr><th>{self.__is_y_mt.upper()} 单倍群</th><th>SNP突变数</th><th>层级</th><th>可信度</th></tr></thead>"
         )
         haploTable.append("<tbody>")
         for idx, haplo in enumerate(self.__haplogroup_list):
             haploTable.append(
-                "<tr style='{}'><td><a href='https://geneu.xyz/haplo-tree/{}/{}/{}' target='_blank'>{}</a></td><td>{}</td><td>{}</td><td>{:.2%}</td></tr>".format(
+                "<tr style='{}'><td><a href='https://geneu.xyz/haplo-tree/{}/{}/{}' target='_blank' title='在基因助手GeneU查看单倍群树'>{}</a></td><td>{}</td><td>{}</td><td>{:.2%}</td></tr>".format(
                     "color: red; font-size: larger;" if idx == 0 else "",
                     self.__source,
                     self.__is_y_mt,
                     haplo["haplo"],
                     (
-                        "<span style='color: red; font-size: larger;'>{}</span>".format(
-                            haplo["haplo"]
-                        )
+                        "<span style='color: red;'>{}</span>".format(haplo["haplo"])
                         if idx == 0
-                        else "<span style='color: white;'>{}</span>".format(
-                            haplo["haplo"]
-                        )
+                        else haplo["haplo"]
                     ),
                     haplo["snp_derived_count"],
                     haplo["haplo_depth"],
