@@ -44,6 +44,13 @@ try:
             and "position" in values
             and "genotype" in values
             and values["chromosome"] in ["Y", "MT"]
+            and values["genotype"][0]
+            in [
+                "A",
+                "T",
+                "G",
+                "C",
+            ]
         ):
             if values["chromosome"] == "Y":
                 user_y_dict[values["position"]] = values["genotype"]
