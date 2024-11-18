@@ -388,11 +388,13 @@ class Haplotyping:
         haplo_table.append("<tbody>")
         for idx, haplo in enumerate(self.__haplogroup_list):
             haplo_table.append(
-                "<tr style='{}'><td><a href='https://geneu.xyz/haplo-tree/{}/{}/{}' target='_blank' title='在基因助手GeneU查看单倍群树'>{}</a></td><td>{}</td><td>{}</td><td>{:.2%}</td></tr>".format(
+                "<tr style='{}'><td><a href='https://geneu.xyz/haplo-tree/{}/{}/{}' target='_blank' title='在基因助手GeneU查看{} {}单倍群树'>{}</a></td><td>{}</td><td>{}</td><td>{:.2%}</td></tr>".format(
                     "color: red; font-size: larger;" if idx == 0 else "",
                     self.__source,
                     self.__is_y_mt,
                     haplo["haplo"],
+                    self.__source.upper(),
+                    self.__is_y_mt.upper(),
                     (
                         "<span style='color: red;'>{}</span>".format(haplo["haplo"])
                         if idx == 0
