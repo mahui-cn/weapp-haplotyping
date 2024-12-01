@@ -119,7 +119,7 @@ try:
                 )
             )
         result.append(
-            "<li>此单倍群分型计算器基于{}的{}{}{}。采用“均衡型策略”处理SNP假阳和SNP定义多种单倍群的情况。</li>".format(
+            "<li>此单倍群分型计算器基于{}的{}{}{}。采用“均衡型策略”处理SNP假阳的情况。</li>".format(
                 source.upper(),
                 (
                     "父系单倍群树（{:,}个单倍群）".format(yHaplo.HaploCount)
