@@ -132,9 +132,7 @@ class Haplotyping:
         if source == None:
             raise Exception("请指定单倍群树数据源")
 
-        if not re.match("y", isYorMt, re.IGNORECASE) and not re.match(
-            "mt", isYorMt, re.IGNORECASE
-        ):
+        if not re.match("y|mt", isYorMt, re.IGNORECASE):
             raise Exception("请指定单倍群树是：y或mt")
 
         # 加载单倍群分型树
@@ -161,9 +159,7 @@ class Haplotyping:
         if user_genome == None or len(user_genome) == 0:
             raise Exception("用户基因数据为空")
 
-        if not re.match("hg19", genome_ref, re.IGNORECASE) and not re.match(
-            "hg38", genome_ref, re.IGNORECASE
-        ):
+        if not re.match("hg19|hg38", genome_ref, re.IGNORECASE):
             raise Exception("请指定用户基因数据的参考基因组是：hg19或hg38")
 
         # 遍历单倍群分型树
