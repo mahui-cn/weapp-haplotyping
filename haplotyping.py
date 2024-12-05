@@ -10,45 +10,45 @@ import logging
 # Y/mtDNA单倍群分型
 class Haplotyping:
     # 单倍群分型结果
-    __haplogroup_list = None
+    __haplogroup_list: list = None
     # 单倍群分型树
-    __haplo_tree = None
+    __haplo_tree: dict = None
     # 单倍群分型树的时间戳
-    __timestamp = None
+    __timestamp: str = None
     # 单倍群分型树的来源
-    __source = ""
+    __source: str = ""
     # 单倍群分型树是Y或mt
-    __is_y_mt = ""
+    __is_y_mt: str = ""
     # 单倍群分型树的单倍群总数
-    __total_haplo_count = 0
+    __total_haplo_count: int = 0
     # 单倍群分型树的SNP总数
-    __total_snp_count = 0
+    __total_snp_count: int = 0
     # 单倍群分型路径中最少要确认的有连续derived SNP的单倍群数量，如果分型有此连续数量的单倍群有derived SNP，则认为是确定的分型结果
-    __confirmed_positive_haplo = 0
+    __confirmed_positive_haplo: int = 0
     # 单倍群分型上游最多允许的没有derived SNP的单倍群数量，-1表示允许任何假阳SNP。如果分型后上游有超过此连续数量的单倍群没有derived SNP，则认为分型结果是假阳
-    __allowed_negative_haplo = 0
+    __allowed_negative_haplo: int = 0
     # 输出的单倍群分型数量
-    __max_haplo_count = 0
+    __max_haplo_count: int = 0
     # 单倍群分型树的haplo键名
-    __haplo_key = ""
+    __haplo_key: str = ""
     # 单倍群分型树的children键名
-    __children_key = ""
+    __children_key: str = ""
     # 单倍群分型树的snp列表键名
-    __snp_list_key = ""
+    __snp_list_key: str = ""
     # 单倍群分型树的snp键名
-    __snp_key = ""
+    __snp_key: str = ""
     # 单倍群分型树的snp pos19键名
-    __pos19_key = ""
+    __pos19_key: str = ""
     # 单倍群分型树的snp pos38键名
-    __pos38_key = ""
+    __pos38_key: str = ""
     # 单倍群分型树的snp pos键名
-    __pos_key = ""
+    __pos_key: str = ""
     # 单倍群分型树的ancestral突变键名
-    __ancestral_key = ""
+    __ancestral_key: str = ""
     # 单倍群分型树的derived突变键名
-    __derived_key = ""
+    __derived_key: str = ""
     # 单倍群分型树的用户突变键名
-    __user_geno_key = "u"
+    __user_geno_key: str = "u"
 
     @property
     def HaploTree(self):
@@ -183,10 +183,10 @@ class Haplotyping:
         # 累计单倍群数量
         self.__total_haplo_count += 1
 
-        # 记录从终端节点到根节点的路径，每个节点只记录一次
-        if tree_node[self.__haplo_key] not in [
+        # 记录从终端节点到根节点的路径，因此此递归函数会在每层遍历所有子节点，所以要判断每个父节点只记录一次
+        if tree_node[self.__haplo_key] not in {
             haplo_node[self.__haplo_key] for haplo_node in root_end_node_list
-        ]:
+        }:
             root_end_node_list.insert(0, tree_node)
 
         if self.__snp_list_key in tree_node and len(tree_node[self.__snp_list_key]) > 0:
