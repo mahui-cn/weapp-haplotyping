@@ -60,6 +60,9 @@ try:
     # 使用23Mofang单倍群树
     source = "mf"
 
+    # 单倍群可信度阈值
+    haplo_tol: float = 0.5
+
     # 单倍群分型对象
     yHaplo = None
     mtHaplo = None
@@ -90,34 +93,72 @@ try:
         mtHaplo != None and len(mtHaplo.HaplogroupList) > 0
     ):
         if yHaplo != None and len(yHaplo.HaplogroupList) > 0:
+            # 显示Y单倍群列表
             result.append(str(yHaplo))
+
+            # 获取用户的Y家族信息
+            user_y_family_dict = {}
+            with open(
+                "haplotree/{}_y_dict.json".format(source.lower()),
+                "r",
+                encoding="utf-8-sig",
+            ) as y_dict_file:
+                y_dict = json.load(y_dict_file)
+                y_dict = y_dict if "dict" not in y_dict else y_dict["dict"]
+                for y_haplo_dict in yHaplo.HaplogroupList[0]["haplo_path"]:
+                    if "hf" in y_dict[y_haplo_dict["haplo"]]:
+                        user_y_family_dict[y_haplo_dict["haplo"]] = y_dict[
+                            y_haplo_dict["haplo"]
+                        ]
+
         if mtHaplo != None and len(mtHaplo.HaplogroupList) > 0:
+            # 显示mt单倍群列表
             result.append(str(mtHaplo))
+
         result.append(
             "<div class='alert alert-info' style='margin-top: 10px;' role='alert'><ul>"
         )
+
         if yHaplo != None and len(yHaplo.HaplogroupList) > 0:
+            y_family_str = ""
+            if len(user_y_family_dict) > 0:
+                y_family_str += "上下游关联家族：<ul>"
+                for y in user_y_family_dict.keys():
+                    y_family_str += "<li>{} (共祖{}年)".format(
+                        y, user_y_family_dict[y]["a"]
+                    )
+                    for family_dict in user_y_family_dict[y]["hf"]:
+                        y_family_str += "<a href='https://www.23mofang.com/ancestry/family/{}' target='_blank' title='查看家族详情'><span class='badge margin-left-5 margin-right-5'>{}</span>{}</a>".format(
+                            family_dict["fi"],
+                            family_dict["sn"],
+                            family_dict["ft"],
+                        )
+                    y_family_str += "</li>"
+                y_family_str += "</ul>"
             result.append(
-                "<li>您的Y父系单倍群最有可能是<span style='color: red;'>{}</span>，{}。</li>".format(
+                "<li>您的Y父系单倍群最有可能是<span style='color: red;'>{}</span>，{}。{}</li>".format(
                     yHaplo.HaplogroupList[0]["haplo"],
                     (
                         "可信度较高"
-                        if yHaplo.HaplogroupList[0]["haplo_score"] >= 0.5
+                        if yHaplo.HaplogroupList[0]["haplo_score"] >= haplo_tol
                         else "可信度较低，可能是由于您的微基因数据有误，或不适用于此分型计算器"
                     ),
+                    y_family_str,
                 )
             )
+
         if mtHaplo != None and len(mtHaplo.HaplogroupList) > 0:
             result.append(
                 "<li>您的mt母系单倍群最有可能是<span style='color: red;'>{}</span>，{}。</li>".format(
                     mtHaplo.HaplogroupList[0]["haplo"],
                     (
                         "可信度较高"
-                        if mtHaplo.HaplogroupList[0]["haplo_score"] >= 0.5
+                        if mtHaplo.HaplogroupList[0]["haplo_score"] >= haplo_tol
                         else "可信度较低，可能是由于您的微基因数据有误，或不适用于此分型计算器"
                     ),
                 )
             )
+
         result.append(
             "<li>此单倍群分型计算器基于{}的{}{}{}。采用“均衡型策略”处理SNP假阳的情况。</li>".format(
                 source.upper(),
