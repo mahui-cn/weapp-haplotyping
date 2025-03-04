@@ -64,8 +64,8 @@ try:
     haplo_tol: float = 0.5
 
     # 单倍群分型对象
-    yHaplo = None
-    mtHaplo = None
+    yHaplo: Haplotyping = None
+    mtHaplo: Haplotyping = None
 
     # 并发Y和mt单倍群分型，注：女性没有Y
     cpu_count = cpu_count()
