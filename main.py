@@ -128,9 +128,8 @@ try:
                         y, user_y_family_dict[y]["a"]
                     )
                     for family_dict in user_y_family_dict[y]["hf"]:
-                        y_family_str += "<a href='https://www.23mofang.com/ancestry/family/{}' target='_blank' title='查看家族详情'><span class='badge margin-left-5 margin-right-5'>{}</span>{}</a>".format(
+                        y_family_str += " <a href='https://www.23mofang.com/ancestry/family/{}' target='_blank' title='查看家族详情'>{}</a>".format(
                             family_dict["fi"],
-                            family_dict["sn"],
                             family_dict["ft"],
                         )
                     y_family_str += "</li>"
